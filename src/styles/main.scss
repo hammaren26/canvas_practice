@@ -1,0 +1,107 @@
+//@import "roboto.css";
+@import "normalize.css";
+
+canvas {
+   border: 2px dashed;
+}
+
+body {
+   font-family: "Roboto Slab", serif;
+}
+
+.trigger-btn {
+   background: #ddd;
+   font-weight: 800;
+   border: 2px solid black;
+}
+
+.close-btn {
+   border: none;
+   background: none;
+   position: absolute;
+   right: 0.25rem;
+   top: 0.5rem;
+   // filter: grayscale() brightness(10);
+}
+
+#my-popover {
+   background: #333;
+   color: white;
+   font-weight: 400;
+   padding: 1rem;
+   max-width: 200px;
+   line-height: 1.4;
+   position: absolute;
+   top: 1rem;
+   left: 0;
+   right: 0;
+   margin: 0 auto;
+   padding-top: 2rem;
+
+   &::backdrop {
+      background-color: red;
+   }
+}
+
+body {
+   display: grid;
+   font-family: system-ui, sans-serif;
+   place-items: center;
+   height: 100dvh;
+}
+
+.sr-only:not(:focus):not(:active) {
+   clip: rect(0 0 0 0);
+   clip-path: inset(50%);
+   height: 1px;
+   overflow: hidden;
+   position: absolute;
+   white-space: nowrap;
+   width: 1px;
+}
+@keyframes movingBox {
+   0% {
+      transform: translate(0, 0);
+      opacity: 0.4;
+   }
+
+   25% {
+      opacity: 0.9;
+   }
+
+   50% {
+      transform: translate(150px, 200px);
+      opacity: 0.2;
+   }
+
+   100% {
+      transform: translate(40px, 30px);
+      opacity: 0.8;
+   }
+}
+
+.box {
+   -webkit-transform: translate(0, 0);
+   -webkit-transition: -webkit-transform 1000ms;
+
+   transform: translate(0, 0);
+   transition: transform 1000ms;
+}
+
+.box.move {
+   // transform: translate(50px, 50px);
+
+   /* Выберем анимацию */
+   animation-name: movingBox;
+
+   /* Укажем длительность анимации */
+   animation-duration: 2300ms;
+
+   /* Укажем - сколько раз мы хотим
+      повторить анимацию */
+   animation-iteration-count: infinite;
+
+   /* Это приводит к выполнению анимации
+      в обратном порядке на каждой нечётной итерации */
+   animation-direction: alternate;
+}

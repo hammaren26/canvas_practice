@@ -1,0 +1,63 @@
+@charset "UTF-8";
+/* @import "roboto.css"; */
+@import "icons_fonts.css";
+
+/* @import "~materialize-css"; */
+
+.container {
+   padding-top: 2rem;
+   max-width: 1000px;
+   margin: 0 auto;
+}
+
+#viewport {
+   border: 5px solid rgb(62, 184, 135);
+   width: 100vw;
+   height: 100dvh;
+   box-sizing: border-box;
+}
+
+#viewport:empty {
+   background-color: rgb(88, 184, 88);
+}
+
+bo canvas {
+   border: 1px dashed;
+}
+
+h1 {
+   text-align: center;
+}
+
+body {
+   font-family: "Roboto", sans-serif;
+}
+
+.logo {
+   height: 200px;
+   width: 200px;
+   margin: 0 auto;
+   background-image: url("../logo.jpg");
+   background-size: cover;
+}
+
+pre.test {
+   color: chartreuse;
+}
+
+.ddd {
+   color: green;
+   background-color: currentColor;
+}
+
+.ddd input:empty {
+   border: 2px solid red;
+}
+
+.test {
+   & p {
+      width: 20px;
+      background-color: green;
+      padding: 34px 90px;
+   }
+}
