@@ -1,68 +1,79 @@
 const IMAGE_URL = 'https://media.tenor.com/fCvghb3z3MEAAAAi/pokemon-pikachu.gif';
 const IMAGE_URL2 = 'https://media.tenor.com/-Uz6xHwMa4gAAAAj/snorlax-snorlax-pokemon.gif';
 
-window.addEventListener('load', eventWindowLoaded, false);
 
+window.addEventListener('load', eventWindowLoaded, false);
 function eventWindowLoaded() {
-   canvasApp();
+   // canvasApp();
+
+
+   var c = document.getElementById("canvas");
+   var ctx = c.getContext("2d");
+
+   var tileSheet = new Image();
+   tileSheet.src = "pic_the_scream.jpg";
+
+
+
+   tileSheet.addEventListener('load', function (e) {
+      ctx.drawImage(tileSheet, 90, 130, 50, 60, 10, 10, 50, 60);
+   });
+
+
+
+
 }
 
 function canvasApp() {
-   let message = "HTML5 Canvas";
    let canvas = document.getElementById("canvas");
    let context = canvas.getContext("2d");
-   let colorStops = [
-      { color: "#FF0000", stopPercent: 0 },
-      { color: "#FFFF00", stopPercent: .125 },
-      { color: "#00FF00", stopPercent: .375 },
-      { color: "#0000FF", stopPercent: .625 },
-      { color: "#FF00FF", stopPercent: .875 },
-      { color: "#FF0000", stopPercent: 1 }
+   var tileSheet = new Image();
+   // tileSheet.src = "image-093.png";
+   tileSheet.src = "image-101.png";
+   tileSheet.addEventListener('load', eventSheetLoaded, false);
+
+
+   var mapIndexOffset = -1;
+   var mapRows = 10;
+   var mapCols = 10;
+
+
+   let tileMap = [
+      [1, 2, 2, 2, 0, 6, 6, 6, 6, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [6, 0, 23, 0, 23, 0, 23, 0, 0, 6],
+      [6, 23, 23, 0, 23, 0, 23, 23, 0, 6],
+      [6, 0, 0, 0, 23, 0, 0, 23, 0, 6],
+      [6, 0, 0, 0, 23, 23, 0, 23, 0, 6],
+      [6, 0, 0, 0, 0, 0, 0, 23, 0, 6],
+      [0, 0, 23, 0, 23, 0, 0, 23, 0, 6],
+      [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [6, 6, 6, 6, 0, 6, 6, 6, 6, 6],
    ]
 
-
+   function eventSheetLoaded() {
+      drawScreen();
+   }
 
    function drawScreen() {
-      //Background
-      context.fillStyle = "#000000";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-
-      //Text
-      context.font = "90px impact"
-      context.textAlign = "center";
-      context.textBaseline = "middle";
-
-      let metrics = context.measureText(message);
-      let textWidth = metrics.width;
-      let xPosition = (canvas.width / 2);
-      let yPosition = (canvas.height / 2);
-      let gradient = context.createLinearGradient(
-         canvas.width / 2,
-         0,
-         canvas.width / 2,
-         canvas.height
-      );
-
-      for (let i = 0; i < colorStops.length; i++) {
-         let tempColorStop = colorStops[i];
-         let tempColor = tempColorStop.color;
-         let tempStopPercent = tempColorStop.stopPercent;
-         gradient.addColorStop(tempStopPercent, tempColor);
-         tempStopPercent += .015;
-         if (tempStopPercent > 1) {
-            tempStopPercent = 0;
+      for (var rowCtr = 0; rowCtr < mapRows; rowCtr++) {
+         for (var colCtr = 0; colCtr < mapCols; colCtr++) {
+            var tileId = tileMap[rowCtr][colCtr] + mapIndexOffset;
+            var sourceX = Math.floor(tileId % 8) * 32;
+            var sourceY = Math.floor(tileId / 8) * 32;
+            context.drawImage(tileSheet, sourceX,
+               sourceY, 32, 32, colCtr * 32, rowCtr * 32, 32, 32);
          }
-         tempColorStop.stopPercent = tempStopPercent;
-         colorStops[i] = tempColorStop;
       }
-      context.fillStyle = gradient;
-      context.fillText(message, xPosition, yPosition);
+   }
+
+   function startUp() {
+      gameLoop();
    }
 
    function gameLoop() {
-      window.setTimeout(gameLoop, 40);
-      drawScreen()
+      window.setTimeout(gameLoop, 100);
+      drawScreen();
    }
 
-   gameLoop();
 }
