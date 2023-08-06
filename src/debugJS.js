@@ -1,79 +1,63 @@
-const IMAGE_URL = 'https://media.tenor.com/fCvghb3z3MEAAAAi/pokemon-pikachu.gif';
-const IMAGE_URL2 = 'https://media.tenor.com/-Uz6xHwMa4gAAAAj/snorlax-snorlax-pokemon.gif';
-
 
 window.addEventListener('load', eventWindowLoaded, false);
+
 function eventWindowLoaded() {
-   // canvasApp();
-
-
-   var c = document.getElementById("canvas");
-   var ctx = c.getContext("2d");
-
-   var tileSheet = new Image();
-   tileSheet.src = "pic_the_scream.jpg";
-
-
-
-   tileSheet.addEventListener('load', function (e) {
-      ctx.drawImage(tileSheet, 90, 130, 50, 60, 10, 10, 50, 60);
-   });
-
-
-
-
+   canvasApp();
 }
 
 function canvasApp() {
-   let canvas = document.getElementById("canvas");
-   let context = canvas.getContext("2d");
-   var tileSheet = new Image();
-   // tileSheet.src = "image-093.png";
-   tileSheet.src = "image-101.png";
-   tileSheet.addEventListener('load', eventSheetLoaded, false);
 
-
-   var mapIndexOffset = -1;
-   var mapRows = 10;
-   var mapCols = 10;
-
-
-   let tileMap = [
-      [1, 2, 2, 2, 0, 6, 6, 6, 6, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [6, 0, 23, 0, 23, 0, 23, 0, 0, 6],
-      [6, 23, 23, 0, 23, 0, 23, 23, 0, 6],
-      [6, 0, 0, 0, 23, 0, 0, 23, 0, 6],
-      [6, 0, 0, 0, 23, 23, 0, 23, 0, 6],
-      [6, 0, 0, 0, 0, 0, 0, 23, 0, 6],
-      [0, 0, 23, 0, 23, 0, 0, 23, 0, 6],
-      [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [6, 6, 6, 6, 0, 6, 6, 6, 6, 6],
-   ]
-
-   function eventSheetLoaded() {
-      drawScreen();
-   }
+   let pointImage = new Image();
+   pointImage.src = "https://cwet-rai.ru/image/cache/catalog/sary/cvetnye/ssiren-50x50.png";
 
    function drawScreen() {
-      for (var rowCtr = 0; rowCtr < mapRows; rowCtr++) {
-         for (var colCtr = 0; colCtr < mapCols; colCtr++) {
-            var tileId = tileMap[rowCtr][colCtr] + mapIndexOffset;
-            var sourceX = Math.floor(tileId % 8) * 32;
-            var sourceY = Math.floor(tileId / 8) * 32;
-            context.drawImage(tileSheet, sourceX,
-               sourceY, 32, 32, colCtr * 32, rowCtr * 32, 32, 32);
-         }
+      context.fillStyle = '#EEEEEE';
+      context.fillRect(0, 0, theCanvas.width, theCanvas.height);
+      //Box
+      context.strokeStyle = '#000000';
+      context.strokeRect(1, 1, theCanvas.width - 2, theCanvas.height - 2);
+
+      ball.x += xunits;
+      ball.y += yunits;
+
+      context.fillStyle = "#000000";
+      context.beginPath();
+      context.arc(ball.x, ball.y, 15, 0, Math.PI * 2, true);
+      context.closePath();
+      context.fill();
+
+      if (ball.x > theCanvas.width || ball.x < 0) {
+         angle = 180 - angle;
+         updateBall();
+      } else if (ball.y > theCanvas.height || ball.y < 0) {
+         angle = 360 - angle;
+         updateBall();
       }
    }
 
-   function startUp() {
-      gameLoop();
+   function updateBall() {
+      radians = angle * Math.PI / 180;
+      xunits = Math.cos(radians) * speed;
+      yunits = Math.sin(radians) * speed;
    }
+
+   var speed = 5;
+   var p1 = { x: 20, y: 20 };
+   var angle = 35;
+   var radians = 0;
+   var xunits = 0;
+   var yunits = 0;
+   var ball = { x: p1.x, y: p1.y };
+
+   updateBall();
+
+   theCanvas = document.getElementById("canvasOne");
+   context = theCanvas.getContext("2d");
 
    function gameLoop() {
-      window.setTimeout(gameLoop, 100);
-      drawScreen();
+      window.setTimeout(gameLoop, 20);
+      drawScreen()
    }
 
+   gameLoop();
 }
